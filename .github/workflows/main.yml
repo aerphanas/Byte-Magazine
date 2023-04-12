@@ -2,8 +2,6 @@ name: Update File
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ "master" ]
 
 jobs:
   build:
@@ -13,12 +11,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
-#    - uses: 40ants/setup-lisp@v2
-#      with:
-#        asdf-system: cl-info
+    - name: Setup Lisp
+      uses: 40ants/setup-lisp@v2
+      with:
+        asdf-system: cl-info
 
-#    - name: Run Script
-#      run: ros run -l main.lisp -e "(main)" -q
+    - name: Run Script
+      run: ros run -l main.lisp -e "(main)" -q
  
     - name: test
       run: touch test.txt 
