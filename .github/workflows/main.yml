@@ -17,12 +17,15 @@ jobs:
       with:
         asdf-system: cl-info
 
-    - name: Run Script
-      run: ros run -l main.lisp -e "(main)" -q
-    
+#    - name: Run Script
+#      run: ros run -l main.lisp -e "(main)" -q
+ 
+    - name: test
+      run: touch test.txt 
+ 
     - name: Commit files
       run: |
-        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git commit -a -m "Update File"
     
