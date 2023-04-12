@@ -13,8 +13,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
-    - name: install SBCL
-      run: sudo apt update && sudo apt install sbcl cl-quicklisp
+    - uses: 40ants/setup-lisp@v2
+      with:
+        asdf-system: cl-info
 
     - name: Run Script
       run: sbcl --load main.lisp --eval "(main)"
