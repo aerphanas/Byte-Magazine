@@ -13,10 +13,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
-    - name: Setup SBCL
-      uses: cheeze2000/setup-sbcl@v1
-      with:
-        version: 2.3.3
+    - name: install SBCL
+      run: apt update && apt install sbcl
+      
+    - name: Download QuickLisp
+      run: curl -o ql.lisp http://beta.quicklisp.org/quicklisp.lisp
+      
+    - name: Install QuickLisp
+      run: sbcl --no-sysinit --no-userinit --load ql.lisp --eval '(quicklisp-quickstart:install :path "~/.quicklisp")' --eval '(ql:add-to-init-file)' --quit
     
     - name: Run Script
       run: sbcl --load main.lisp --eval "(main)"
