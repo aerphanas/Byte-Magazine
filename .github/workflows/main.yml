@@ -14,16 +14,10 @@ jobs:
       uses: actions/checkout@v3
     
     - name: install SBCL
-      run: sudo apt update && sudo apt install sbcl
-      
-    - name: Download QuickLisp
-      run: curl -o ~/ql.lisp http://beta.quicklisp.org/quicklisp.lisp
-      
-    - name: Install QuickLisp
-      run: sbcl --no-sysinit --no-userinit --load ~/ql.lisp --eval '(quicklisp-quickstart:install :path "~/quicklisp")' --quit
-    
+      run: sudo apt update && sudo apt install sbcl cl-quicklisp
+
     - name: Run Script
-      run: sbcl --load ~/quicklisp/setup.lisp --load main.lisp --eval "(main)"
+      run: sbcl --load main.lisp --eval "(main)"
     
     - name: Commit files
       run: |
