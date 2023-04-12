@@ -1,0 +1,35 @@
+name: Update File
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Setup SBCL
+      uses: cheeze2000/setup-sbcl@v1
+      with:
+        version: 2.3.3
+    
+    - name: Run Script
+      run: sbcl --load main.lisp --eval "(main)"
+    
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -a -m "Update File"
+    
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+
