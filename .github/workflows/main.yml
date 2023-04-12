@@ -17,10 +17,12 @@ jobs:
       run: sudo apt update && sudo apt install sbcl
       
     - name: Download QuickLisp
-      run: curl -o ql.lisp http://beta.quicklisp.org/quicklisp.lisp
+      run: curl -o /tmp/ql.lisp http://beta.quicklisp.org/quicklisp.lisp
       
     - name: Install QuickLisp
-      run: sbcl --no-sysinit --no-userinit --load ql.lisp --eval '(quicklisp-quickstart:install :path "~/.quicklisp")' --eval '(ql:add-to-init-file)' --quit
+      run: |
+        sbcl --no-sysinit --no-userinit --load /tmp/ql.lisp --eval '(quicklisp-quickstart:install :path "~/.quicklisp")' --quit
+        sbcl --no-sysinit --no-userinit --load /tmp/ql.lisp --eval '(ql:add-to-init-file)' --exit
     
     - name: Run Script
       run: sbcl --load main.lisp --eval "(main)"
