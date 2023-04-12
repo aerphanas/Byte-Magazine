@@ -18,7 +18,7 @@ jobs:
         asdf-system: cl-info
 
     - name: Run Script
-      run: sbcl --load main.lisp --eval "(main)"
+      run: sbcl --load main.lisp --eval "(main)" --exit
     
     - name: Commit files
       run: |
