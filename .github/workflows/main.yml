@@ -18,7 +18,7 @@ jobs:
         asdf-system: cl-info
 
     - name: Run Script
-      run: sbcl --load main.lisp --eval "(main)" --exit
+      run: ros run -l main.lisp -e "(main)" -q
     
     - name: Commit files
       run: |
