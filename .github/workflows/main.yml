@@ -20,12 +20,10 @@ jobs:
       run: curl -o /tmp/ql.lisp http://beta.quicklisp.org/quicklisp.lisp
       
     - name: Install QuickLisp
-      run: |
-        sbcl --no-sysinit --no-userinit --load /tmp/ql.lisp --eval '(quicklisp-quickstart:install :path "~/.quicklisp")' --quit
-        sbcl --no-sysinit --no-userinit --load /tmp/ql.lisp --eval '(ql:add-to-init-file)' --exit
+      run: sbcl --no-sysinit --no-userinit --load /tmp/ql.lisp --eval '(quicklisp-quickstart:install :path "~/.quicklisp")' --quit
     
     - name: Run Script
-      run: sbcl --load main.lisp --eval "(main)"
+      run: sbcl --load ~/quicklisp/setup.lisp --load main.lisp --eval "(main)"
     
     - name: Commit files
       run: |
