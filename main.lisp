@@ -1,4 +1,4 @@
-(ql:quickload '(dexador lquery alexandria))
+(ql:quickload '(dexador lquery))
 
 (defvar *link* "https://vintageapple.org/byte/")
 (defvar *output-file* "./url.txt")
