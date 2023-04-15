@@ -9,23 +9,26 @@ exec ros -Q -- $0 "$@"
   )
 
 (defpackage :ros.script.scrapazine.3890583014
-  (:use :cl))
+  (:use :cl)
+  (:import-from :ql
+   :quickload))
 (in-package :ros.script.scrapazine.3890583014)
 
 (ql:quickload '(dexador lquery))
 
-(defvar *link* "https://vintageapple.org/byte/")
-(defvar *output-file* "./url.txt")
+(defconstant +link+ "https://vintageapple.org/byte/")
+(defconstant +output-file+ "./url.txt")
 
 (defvar *parsed-content*
-  (lquery:$ (initialize (dex:get *link*))))
+  (lquery:$ (initialize (dex:get +link+))))
 
 (defvar *list-links*
   (let ((vector-links (lquery:$  *parsed-content* "a" (attr :href))))
-    (mapcar (lambda (x) (concatenate 'string *link* x))
+    (mapcar (lambda (x) (concatenate 'string +link+ x))
 	    (cddr (cddddr (coerce vector-links 'list))))))
 
 (defun out-to-file (path)
+  "write list to file"
   (with-open-file (stream path
 			  :direction
 			  :output
@@ -39,14 +42,13 @@ exec ros -Q -- $0 "$@"
 
 (defun main (&rest argv)
   (declare (ignorable argv))
-  (out-to-file *output-file*)
+  (out-to-file +output-file+)
   (uiop:run-program
-   (format nil "wget -i ~a -P output" *output-file*)
-   :output :string))
+   (format nil "wget -i ~a -P output" +output-file+)))
 
 (handler-case
     (main)
   (sb-sys:interactive-interrupt () (progn
                                      (format *error-output* "~%Abort.~&")
-                                     (sb-ext:exit))))
+                                     (sb-ext:quit))))
 ;;; vim: set ft=lisp lisp:
