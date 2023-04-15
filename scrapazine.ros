@@ -1,3 +1,17 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp(ql:quickload '() :silent t)
+  )
+
+(defpackage :ros.script.scrapazine.3890583014
+  (:use :cl))
+(in-package :ros.script.scrapazine.3890583014)
+
 (ql:quickload '(dexador lquery))
 
 (defvar *link* "https://vintageapple.org/byte/")
@@ -23,8 +37,16 @@
       do (format stream i)
 	 (terpri stream))))
 
-(defun main ()
+(defun main (&rest argv)
+  (declare (ignorable argv))
   (out-to-file *output-file*)
   (uiop:run-program
    (format nil "wget -i ~a -P output" *output-file*)
    :output :string))
+
+(handler-case
+    (main)
+  (sb-sys:interactive-interrupt () (progn
+                                     (format *error-output* "~%Abort.~&")
+                                     (sb-ext:exit))))
+;;; vim: set ft=lisp lisp:
